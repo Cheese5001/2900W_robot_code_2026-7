@@ -75,6 +75,8 @@ void opcontrol(void);
  * You can add C++-only headers here
  */
 //#include <iostream>
+    #include "2900winclide/subsystems.hpp"`
+    #include "2900winclide/devices.hpp"
 #endif
 
 #endif  // _PROS_MAIN_H_
