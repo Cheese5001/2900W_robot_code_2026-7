@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Ganz-Mavag",
+    "project_name": "scrim",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -593,7 +593,8 @@
     },
     "upload_options": {
       "icon": "pizza",
-      "description": "for 2900W. Version 1.0.1.1"
+      "description": "for 2900W. Version 1.0.1.1",
+      "slot": 3
     },
     "use_early_access": false
   }

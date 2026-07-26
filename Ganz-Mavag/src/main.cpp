@@ -15,6 +15,8 @@ void on_center_button() {
 		pros::lcd::clear_line(2);
 	}
 }
+pros::MotorGroup left_drive({-3, -4});     // Creates a motor group with reversed port 11 and reversed port 12
+pros::MotorGroup right_drive({1, 2});  // Creates a motor group with forward port 1 and forwards port 2
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -58,7 +60,21 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	left_drive.move_absolute(400,100);
+	right_drive.move_absolute(400,100);
+	pros::delay(1000);
+	left_drive.move_absolute(-300,100);
+	right_drive.move_absolute(-300,100);
+	pros::delay(700);
+	left_drive.move_absolute(400,100);
+	right_drive.move_absolute(400,100);
+	pros::delay(500);
+	left_drive.move_absolute(-500,100);
+	right_drive.move_absolute(-500,100);
+
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -71,13 +87,11 @@ void autonomous() {}
  *
  * If the robot is disabled or communications is lost, the
  * operator control task will be stopped. Re-enabling the robot will restart the
- * task, not resume it from where it left off.
+ * task, not resume it from where it left off.	
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::MotorGroup left_drive({-11, -12});     // Creates a motor group with reversed port 11 and reversed port 12
-	pros::MotorGroup right_drive({1, 2});  // Creates a motor group with forward port 1 and forwards port 2
-
+	
   
 	while (true) {
 		// pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
