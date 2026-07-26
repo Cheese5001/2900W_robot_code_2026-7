@@ -14,21 +14,13 @@ namespace subsystems {
         pros::Motor right_1;
         pros::Motor right_2;
 
-
-
         pros::MotorGroup leftDrive = pros::MotorGroup(left_1);
         pros::MotorGroup rightDrive = pros::MotorGroup(right_1);
         
-
-
-
         //set up IMU
         pros::IMU imu_1;
-        
-
 
         bool odomRunning = false;
-
 
         public:
         //allows for getting the motor data for lemlib to use
@@ -36,8 +28,6 @@ namespace subsystems {
         pros::MotorGroup& getLeftDrive() { return leftDrive; }
         pros::MotorGroup& getRightDrive() { return rightDrive; }
         
-
-
         //imu getter
         pros::IMU& getIMU() { return imu_1; }
 

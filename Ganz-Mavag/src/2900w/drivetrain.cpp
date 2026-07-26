@@ -18,11 +18,18 @@ namespace subsystems
         rightDrive.append(right_2);
 
     }
-void drivetrain::driverFunctions()
-{
-    int left_input = Controller.get_analog(ANALOG_LEFT_Y);
-    int right_input = Controller.get_analog(ANALOG_RIGHT_Y);
-    
-   
-}
+    void drivetrain::driverFunctions()
+    {
+        int left_input = Controller.get_analog(ANALOG_LEFT_Y);
+        int right_input = Controller.get_analog(ANALOG_RIGHT_Y);
+
+        int left_output = linearToCubed(left_input, 127, 1);
+        int right_output = linearToCubed(left_input, 127, 1);
+
+        
+    }
+    void drivetrain::setDriveVoltage(double left_voltage, double right_voltage){
+
+    }
+
 }
