@@ -1,4 +1,5 @@
 #include "2900winclide/subsystems.hpp"
+#include <cmath>
 
 
 namespace subsystems
@@ -24,12 +25,25 @@ namespace subsystems
         int right_input = Controller.get_analog(ANALOG_RIGHT_Y);
 
         int left_output = linearToCubed(left_input, 127, 1);
-        int right_output = linearToCubed(left_input, 127, 1);
+        int right_output = linearToCubed(right_input, 127, 1);
 
-        
+        int left_voltage = pctToVoltage(left_output);
+        int right_voltage = pctToVoltage(right_output);
+
+        this->setDriveVoltage(left_voltage, right_voltage);
     }
     void drivetrain::setDriveVoltage(double left_voltage, double right_voltage){
+        int left_voltage_int = floor(left_voltage);
+        int right_voltage_int = floor(right_voltage);
 
+        leftDrive.move_voltage(left_voltage_int);
+        rightDrive.move_voltage(right_voltage_int);
+    }
+
+    void drivetrain::setBrakeMode(pros::motor_brake_mode_e brake_mode)
+    {
+        leftDrive.set_brake_mode(brake_mode);
+        rightDrive.set_brake_mode(brake_mode);
     }
 
 }

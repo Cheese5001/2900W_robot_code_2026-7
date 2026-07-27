@@ -75,6 +75,7 @@ void opcontrol(void);
  * You can add C++-only headers here
  */
 //#include <iostream>
+    #include<cmath> 
     #include "2900winclide/subsystems.hpp"`
     #include "2900winclide/devices.hpp"
     #include "2900winclide/utils.hpp"
