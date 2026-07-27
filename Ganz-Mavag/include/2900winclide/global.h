@@ -8,3 +8,5 @@
 
 
 #define IMU1 15
+
+#define claw 'A'

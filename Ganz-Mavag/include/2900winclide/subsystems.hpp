@@ -86,5 +86,6 @@ namespace subsystems {
             char claw_solo_port);
 
         void driverFunctions();
+        void setLiftState(double lift_voltage, double arm_voltage, bool claw_solanoid_state);
     };
 };
