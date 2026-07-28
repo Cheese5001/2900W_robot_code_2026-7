@@ -67,8 +67,9 @@ namespace subsystems {
         pros::Motor cascade_motor_2;
         pros::Motor arm_motor_1;
         pros::Motor arm_motor_2;
-        pros::adi::Pneumatics claw;
-
+        pros::adi::Pneumatics CLAW;
+        pros::MotorGroup CascadeMotors = pros::MotorGroup(cascade_motor_1);
+        pros::MotorGroup armMotors = pros::MotorGroup(arm_motor_1);
         int lift_press_count = 0;   
 
         int arm_press_amount = 0;
@@ -86,6 +87,8 @@ namespace subsystems {
             char claw_solo_port);
 
         void driverFunctions();
-        void setLiftState(double lift_voltage, double arm_voltage, bool claw_solanoid_state);
+        void setLiftVoltage(double voltage);
+        void setArmVoltage(double voltage);
+        void setClawState(bool state);
     };
 };
