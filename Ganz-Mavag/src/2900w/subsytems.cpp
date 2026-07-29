@@ -3,7 +3,7 @@
 #include "pros/adi.hpp"
 #include "pros/misc.h"
 #include "pros/motors.hpp"
-
+#include <cmath>
 namespace subsystems{
         lift::lift(int cascade_lift_1_port,int cascade_lift_2_port,int arm_1_port,int arm_2_port,char claw_solo_port)
         : cascade_motor_1(pros::Motor(cascade_lift_1_port, pros::v5::MotorGearset::blue, pros::v5::MotorEncoderUnits::degrees)),
@@ -17,8 +17,31 @@ namespace subsystems{
           armMotors.append(arm_motor_2);
         }
 
-        void setLiftState(double voltage){
+        void lift::setControlLiftVoltage(double voltage){
           cascade_motor_1.move_voltage(floor(voltage));
-            
+          cascade_motor_2.move_voltage(floor(voltage));
         }
-    }
+        
+        void lift::setControlArmVoltage(double voltage){
+          arm_motor_1.move_voltage(floor(voltage));
+          arm_motor_2.move_voltage(floor(voltage));
+        }
+
+        void lift::setMacroArmRotation(double armrotation){
+          arm_motor_1.move_absolute(floor(armrotation));
+          arm_motor_2.move_absolute(floor(armrotation));
+        }
+
+        void lift::setClawState(bool state){
+          CLAW.set_value(state);
+        }
+
+        void lift::driverFunctions(){
+          if (Controller.get_digital(DIGITAL_L1)){
+              lift_press_count ++ ;
+            }
+          else if(Controller.get_digital(DIGITAL_L2)){
+              lift_press_count -- ;
+          };
+        };
+}

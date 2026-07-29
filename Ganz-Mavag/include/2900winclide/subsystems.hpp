@@ -1,5 +1,6 @@
 #pragma once
 #include "main.h"
+#include "pros/adi.h"
 #include "pros/adi.hpp"
 #include "pros/motors.hpp"
 #include "global.h"
@@ -49,18 +50,19 @@ namespace subsystems {
 
         void moveVelocity(double velocity);
         
-        
-
-  
     };
 
-    enum Lift_Mode{
-        tall_guy,
-        dunk,
-        yellow_light,
-        get_out
-
+    enum ARM_MODE{
+        ALLINCE_PIN,
+        HEIGHT_1,
+        HEIGHT_2,
+        HEIGHT_3,
+        HEIGHT_4,
+        HEIGHT_5,
+        HEIGHT_6,
+        IDLE
     };
+
 
     class lift{
         pros::Motor cascade_motor_1;
@@ -72,11 +74,9 @@ namespace subsystems {
         pros::MotorGroup armMotors = pros::MotorGroup(arm_motor_1);
         int lift_press_count = 0;   
 
-        int arm_press_amount = 0;
 
-        int claw_press_amount = 0;
-
-        Lift_Mode currentMode = get_out;
+        ARM_MODE currentMode = IDLE;
+        
 
 
         public:
@@ -87,8 +87,10 @@ namespace subsystems {
             char claw_solo_port);
 
         void driverFunctions();
-        void setLiftVoltage(double voltage);
-        void setArmVoltage(double voltage);
+        void setControlLiftVoltage(double voltage);
+        void setControlArmVoltage(double voltage);
         void setClawState(bool state);
+        void setMacroLiftRotation(double liftrotation);
+        void setMacroArmRotation(double armrotation);
     };
 };
