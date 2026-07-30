@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/misc.h"
 
 /**
  * A callback function for LLEMU's center button.
@@ -17,7 +18,9 @@ void on_center_button() {
 }
 pros::MotorGroup left_drive({-3, -4});     // Creates a motor group with reversed port 11 and reversed port 12
 pros::MotorGroup right_drive({1, 2});  // Creates a motor group with forward port 1 and forwards port 2
-
+pros::Motor arm_1(7,pros::MotorGearset::green);
+pros::Motor arm_2(7,pros::MotorGearset::green);
+pros::MotorGroup arm(arm_1);
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -91,7 +94,7 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	
+	arm.append(arm_2);
   
 	while (true) {
 		// pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
@@ -101,6 +104,16 @@ void opcontrol() {
 		// Tank Drive
 		left_drive.move(master.get_analog(ANALOG_LEFT_Y));           			 // Sets left motor voltage
 		right_drive.move(master.get_analog(ANALOG_RIGHT_Y));                     // Sets right motor voltage
+		if(master.get_digital(DIGITAL_R1)){
+			arm.move_velocity(100);
+		}
+		else if(master.get_digital(DIGITAL_R2)){
+			arm.move_velocity(-100);
+		}
+		else{
+			arm.brake();
+		}
+
 		pros::delay(20);                               // Run for 20 ms then update
 	}
 }
