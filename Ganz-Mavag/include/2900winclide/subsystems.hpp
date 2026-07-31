@@ -53,14 +53,14 @@ namespace subsystems {
     };
 
     enum ARM_MODE{
-        ALLINCE_PIN,
-        HEIGHT_1,
-        HEIGHT_2,
-        HEIGHT_3,
-        HEIGHT_4,
-        HEIGHT_5,
-        HEIGHT_6,
-        IDLE
+        ALLINCE_PIN = 480,
+        HEIGHT_1 = 20,
+        HEIGHT_2 = 35,
+        HEIGHT_3 = 35,
+        HEIGHT_4 = 45,
+        HEIGHT_5 = 50, 
+        HEIGHT_6 = 80,
+        IDLE = 0
     };
 
 
@@ -73,8 +73,6 @@ namespace subsystems {
         pros::MotorGroup CascadeMotors = pros::MotorGroup(cascade_motor_1);
         pros::MotorGroup armMotors = pros::MotorGroup(arm_motor_1);
         int lift_press_count = 0;   
-
-
         ARM_MODE currentMode = IDLE;
         
 
@@ -91,6 +89,7 @@ namespace subsystems {
         void setControlArmVoltage(double voltage);
         void setClawState(bool state);
         void setMacroLiftRotation(double liftrotation);
-        void setMacroArmRotation(double armrotation);
+        void setMacroArmRotation(double voltage);
+        void arm_position(ARM_MODE pos);
     };
 };

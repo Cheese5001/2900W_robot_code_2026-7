@@ -27,21 +27,29 @@ namespace subsystems{
           arm_motor_2.move_voltage(floor(voltage));
         }
 
-        void lift::setMacroArmRotation(double armrotation){
-          arm_motor_1.move_absolute(floor(armrotation));
-          arm_motor_2.move_absolute(floor(armrotation));
+        void lift::setMacroArmRotation(double voltage){
+          arm_motor_1.move_voltage(floor(voltage));
+          arm_motor_2.move_voltage(floor(voltage));
         }
 
         void lift::setClawState(bool state){
           CLAW.set_value(state);
         }
 
+        void lift::arm_position(ARM_MODE pos){
+          currentMode = pos;
+        }
         void lift::driverFunctions(){
-          if (Controller.get_digital(DIGITAL_L1)){
+          if (Controller.get_digital_new_press(DIGITAL_L1)){
               lift_press_count ++ ;
             }
-          else if(Controller.get_digital(DIGITAL_L2)){
+          else if(Controller.get_digital_new_press(DIGITAL_L2)){
               lift_press_count -- ;
-          };
+          }
+          else (Controller.get_digital_new_press(DIGITAL_A));
+            lift_press_count = 0;
+          
+
+
         };
 }
