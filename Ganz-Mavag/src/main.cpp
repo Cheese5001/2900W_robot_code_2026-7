@@ -18,8 +18,8 @@ void on_center_button() {
 }
 pros::MotorGroup left_drive({-3, -4});     // Creates a motor group with reversed port 11 and reversed port 12
 pros::MotorGroup right_drive({1, 2});  // Creates a motor group with forward port 1 and forwards port 2
-pros::Motor arm_1(7,pros::MotorGearset::green);
-pros::Motor arm_2(7,pros::MotorGearset::green);
+pros::Motor arm_1(-7,pros::MotorGearset::green);
+pros::Motor arm_2(8,pros::MotorGearset::green);
 pros::MotorGroup arm(arm_1);
 /**
  * Runs initialization code. This occurs as soon as the program is started.
