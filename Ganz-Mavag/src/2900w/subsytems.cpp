@@ -61,5 +61,12 @@ namespace subsystems{
             voltage_lift = 0;
             CascadeMotors.brake();
           }
+
+          if(Controller.get_digital(DIGITAL_A)){
+            CLAW.extend();
+          }
+          else if(Controller.get_digital(DIGITAL_B)){
+            CLAW.retract();
+          }
         };
 }
