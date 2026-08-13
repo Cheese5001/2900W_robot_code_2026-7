@@ -85,11 +85,13 @@ namespace subsystems {
             char claw_solo_port);
 
         void driverFunctions();
-        void setControlLiftVoltage(double voltage);
-        void setControlArmVoltage(double voltage);
+        void setControlLiftVoltage(double voltage_lift);
+        void setControlArmVoltage(double voltage_arm);
         void setClawState(bool state);
         void setMacroLiftRotation(double liftrotation);
         void setMacroArmRotation(double voltage);
         void arm_position(ARM_MODE pos);
+        double voltage_lift;
+        double voltage_arm;
     };
 };

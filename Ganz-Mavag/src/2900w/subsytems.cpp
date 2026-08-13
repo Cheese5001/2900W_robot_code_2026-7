@@ -40,16 +40,26 @@ namespace subsystems{
           currentMode = pos;
         }
         void lift::driverFunctions(){
-          if (Controller.get_digital_new_press(DIGITAL_L1)){
-              lift_press_count ++ ;
-            }
-          else if(Controller.get_digital_new_press(DIGITAL_L2)){
-              lift_press_count -- ;
+          if (Controller.get_digital(DIGITAL_L1)){
+              voltage_arm = 12000;
+              }
+          else if(Controller.get_digital(DIGITAL_L2)){
+              voltage_arm = -12000;
           }
-          else (Controller.get_digital_new_press(DIGITAL_A));
-            lift_press_count = 0;
-          
+          else{
+            voltage_arm = 0;
+            armMotors.brake();
+          }
 
-
+          if (Controller.get_digital(DIGITAL_R1)){
+            voltage_lift = 12000;
+          }
+          else if (Controller.get_digital(DIGITAL_R2)){
+            voltage_lift = -12000;
+          }
+          else{
+            voltage_lift = 0;
+            CascadeMotors.brake();
+          }
         };
 }
