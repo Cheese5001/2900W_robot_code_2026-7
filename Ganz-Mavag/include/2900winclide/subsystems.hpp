@@ -25,14 +25,14 @@ namespace subsystems {
 
         public:
         //allows for getting the motor data for lemlib to use
-        //motor gorup getters
+        //motor gorup yoinker
         pros::MotorGroup& getLeftDrive() { return leftDrive; }
         pros::MotorGroup& getRightDrive() { return rightDrive; }
         
-        //imu getter
+        //imu yoinker
         pros::IMU& getIMU() { return imu_1; }
 
-        //constructor
+        //builds it or something
         drivetrain(int left_1_port, int left_2_port, 
                     int right_1_port, int right_2_port, 
                     int imu_1_port);
@@ -41,7 +41,7 @@ namespace subsystems {
         //driver functions
         void driverFunctions();
 
-        //helpers 
+        //it is cool
         void setDriveVoltage(double left_voltage, double right_voltage);
 
         void setBrakeMode(pros::motor_brake_mode_e brake_mode);

@@ -2,6 +2,8 @@
 #include "2900winclide/global.h"
 #include "2900winclide/devices.hpp"
 #include "2900winclide/subsystems.hpp"
+#include "2900winclide/pid.hpp"
+#include "lemlib/api.hpp"  // IWYU pragma: keep
 
 subsystems::drivetrain drivetrain = subsystems::drivetrain(LEFT_MOTOR_1,
 														   LEFT_MOTOR_2,
@@ -68,10 +70,12 @@ void autonomous() {}
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	
+
+
   
 	while (true) {
-
+			drivetrain.driverFunctions();
+			lift.driverFunctions();
 		pros::delay(20);                               // Run for 20 ms then update
 	}
 }
