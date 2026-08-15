@@ -22,7 +22,11 @@ subsystems::lift lift = subsystems::lift(cascade_left,
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize() {}
+void initialize() {
+	chassis.calibrate();
+	chassis.setPose(0,0,0);
+	pros::delay(100);
+}
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
