@@ -80,6 +80,7 @@ void opcontrol() {
 	while (true) {
 			drivetrain.driverFunctions();
 			lift.driverFunctions();
+			
 		pros::delay(20);                               // Run for 20 ms then update
 	}
 }

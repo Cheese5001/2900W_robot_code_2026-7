@@ -4,6 +4,7 @@
 #include "pros/misc.h"
 #include "pros/motors.hpp"
 #include <cmath>
+#include <iostream>
 namespace subsystems{
         lift::lift(int cascade_lift_1_port,int cascade_lift_2_port,int arm_1_port,int arm_2_port,char claw_solo_port)
         : cascade_motor_1(pros::Motor(cascade_lift_1_port, pros::v5::MotorGearset::blue, pros::v5::MotorEncoderUnits::degrees)),
@@ -13,10 +14,9 @@ namespace subsystems{
           CLAW((pros::adi::Pneumatics(claw_solo_port, false, false)))
         {
           CascadeMotors.append(cascade_motor_2);
-
           armMotors.append(arm_motor_2);
         }
-
+        
         void lift::setControlLiftVoltage(double voltage){
           cascade_motor_1.move_voltage(floor(voltage));
           cascade_motor_2.move_voltage(floor(voltage));
@@ -68,7 +68,12 @@ namespace subsystems{
           else if(Controller.get_digital(DIGITAL_B)){
             CLAW.retract();
           }
-        };
+          if(Controller.get_digital(DIGITAL_DOWN)){
+            armMotors.move_absolute(0,100);
+          }
 
+            
+          
+        };
         
 }

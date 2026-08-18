@@ -93,5 +93,6 @@ namespace subsystems {
         void arm_position(ARM_MODE pos);
         double voltage_lift;
         double voltage_arm;
+        int arm_rotation = 0;
     };
 };
