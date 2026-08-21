@@ -26,7 +26,7 @@ pros::MotorGroup arm(arm_1);
 pros::Motor cascade_1(0,pros::MotorGearset::blue);
 pros::Motor cascade_2(0,pros::MotorGearset::blue);
 pros::MotorGroup cascade(cascade_1);
-pros::Motor claw(10,pros::MotorGearset::green);
+pros::adi::Pneumatics claw('A', true );
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -102,12 +102,10 @@ void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	arm.append(arm_2);
 	arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  	claw.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	while (true) {
 		// pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		//                  (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		//                  (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
-
 		// Tank Drive
 		left_drive.move(master.get_analog(ANALOG_LEFT_Y));           			 // Sets left motor voltage
 		right_drive.move(master.get_analog(ANALOG_RIGHT_Y));                     // Sets right motor voltage
@@ -120,20 +118,12 @@ void opcontrol() {
 		else{
 			arm.brake();
 		}
-
-		if(master.get_digital(DIGITAL_L1)){
-			claw.move_velocity(100);
+		if (master.get_digital(DIGITAL_A)){
+			claw.extend();
+		}	
+		else if (master.get_digital(DIGITAL_B)){
+			claw.retract();
 		}
-		else if(master.get_digital(DIGITAL_L2)){
-			claw.move_velocity(-50);
-		}
-		else{
-			claw.brake();
-		}
-		
-		
-		
-
 		pros::delay(20);                               // Run for 20 ms then update
 	}
 }
