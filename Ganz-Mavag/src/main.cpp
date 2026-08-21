@@ -23,8 +23,8 @@ pros::MotorGroup right_drive({1, 2});  // Creates a motor group with forward por
 pros::Motor arm_1(-6,pros::MotorGearset::red);
 pros::Motor arm_2(8,pros::MotorGearset::red);
 pros::MotorGroup arm(arm_1);
-pros::Motor cascade_1(0,pros::MotorGearset::blue);
-pros::Motor cascade_2(0,pros::MotorGearset::blue);
+pros::Motor cascade_1(-9,pros::MotorGearset::blue);
+pros::Motor cascade_2(10,pros::MotorGearset::blue);
 pros::MotorGroup cascade(cascade_1);
 pros::adi::Pneumatics claw('A', true );
 /**
@@ -102,6 +102,8 @@ void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	arm.append(arm_2);
 	arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	cascade.append(cascade_2);
+	cascade.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	while (true) {
 		// pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		//                  (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
@@ -123,6 +125,15 @@ void opcontrol() {
 		}	
 		else if (master.get_digital(DIGITAL_B)){
 			claw.retract();
+		}
+		if(master.get_digital(DIGITAL_R1)){
+			cascade.move_velocity(500);
+		}
+		else if (master.get_digital(DIGITAL_R2)){
+			cascade.move_velocity(-500);
+		}
+		else{
+			cascade.brake();
 		}
 		pros::delay(20);                               // Run for 20 ms then update
 	}
