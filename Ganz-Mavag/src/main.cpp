@@ -25,6 +25,7 @@ subsystems::lift lift = subsystems::lift(cascade_left,
 void initialize() {
 	chassis.calibrate();
 	chassis.setPose(0,0,0);
+	
 	pros::delay(100);
 }
 

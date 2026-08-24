@@ -1,10 +1,12 @@
 #include "2900winclide/subsystems.hpp"
 #include "main.h"
+#include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/misc.h"
 #include "pros/motors.hpp"
 #include <cmath>
 #include <iostream>
+#include <atomic>
 namespace subsystems{
         lift::lift(int cascade_lift_1_port,int cascade_lift_2_port,int arm_1_port,int arm_2_port,char claw_solo_port)
         : cascade_motor_1(pros::Motor(cascade_lift_1_port, pros::v5::MotorGearset::blue, pros::v5::MotorEncoderUnits::degrees)),
@@ -15,6 +17,14 @@ namespace subsystems{
         {
           CascadeMotors.append(cascade_motor_2);
           armMotors.append(arm_motor_2);
+          CascadeMotors.set_encoder_units(pros::MotorUnits::degrees);
+          armMotors.set_encoder_units(pros::MotorUnits::degrees);
+          CascadeMotors.tare_position();
+          armMotors.tare_position();
+          CascadeMotors.set_brake_mode(pros::MotorBrake::hold);
+          armMotors.set_brake_mode(pros::MotorBrake::hold);
+          //std::atomic<std::int32_t> armTargetCentiDegrees{0};
+          //armTargetCentiDegrees.store(degrDegreesToCentidegrees(start))
         }
         
         void lift::setControlLiftVoltage(double voltage){

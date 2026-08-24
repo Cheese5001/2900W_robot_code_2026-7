@@ -15,3 +15,7 @@ int sign(double num)
 {
     return (num >= 0) ? 1 : -1;
 }
+
+std::int32_t DegreesToCentidegrees(double degrees) {
+	return static_cast<std::int32_t>(std::round(degrees * 100.0));
+}
