@@ -4,6 +4,7 @@
 #include "pros/adi.hpp"
 #include "pros/misc.h"
 #include "pros/motors.hpp"
+#include "utils.cpp"
 #include <cmath>
 #include <iostream>
 #include <atomic>
@@ -24,7 +25,20 @@ namespace subsystems{
           CascadeMotors.set_brake_mode(pros::MotorBrake::hold);
           armMotors.set_brake_mode(pros::MotorBrake::hold);
           std::atomic<std::int32_t> armTargetCentiDegrees{0};
-          armTargetCentiDegrees.store(degrDegreesToCentidegrees(startposition));
+          std::atomic<std::int32_t> cascadeTargetCentidegrees{0};
+          std::atomic<std::int32_t> armManualPower{0};
+          std::atomic<bool> armManualCoast{false};
+          std::atomic<std::int32_t> cascadeManualPower{0};
+          struct PositionTargets {
+	              double armDegrees;
+	              double cascadeDegrees;
+          };
+          constexpr PositionTargets startposition = {0.0, 125.0};
+          armTargetCentiDegrees.store(DegreesToCentidegrees(startposition.armDegrees));
+          cascadeTargetCentidegrees.store(DegreesToCentidegrees(startposition.cascadeDegrees));
+          armManul.store(0);
+	        armManualCoast.store(false);
+	        cascadeManualPower.store(0);
         }
         
         void lift::setControlLiftVoltage(double voltage){
