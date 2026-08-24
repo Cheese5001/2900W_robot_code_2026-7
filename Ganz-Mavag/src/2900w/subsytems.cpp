@@ -23,8 +23,8 @@ namespace subsystems{
           armMotors.tare_position();
           CascadeMotors.set_brake_mode(pros::MotorBrake::hold);
           armMotors.set_brake_mode(pros::MotorBrake::hold);
-          //std::atomic<std::int32_t> armTargetCentiDegrees{0};
-          //armTargetCentiDegrees.store(degrDegreesToCentidegrees(start))
+          std::atomic<std::int32_t> armTargetCentiDegrees{0};
+          armTargetCentiDegrees.store(degrDegreesToCentidegrees(startposition));
         }
         
         void lift::setControlLiftVoltage(double voltage){

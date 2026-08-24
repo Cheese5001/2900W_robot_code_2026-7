@@ -94,5 +94,6 @@ namespace subsystems {
         double voltage_lift;
         double voltage_arm;
         int arm_rotation = 0;
+        const double cascadeDegrees = CascadeMotors.get_position();
     };
 };
