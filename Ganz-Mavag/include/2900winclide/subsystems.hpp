@@ -84,6 +84,27 @@ namespace subsystems {
             int arm_2_port,
             char claw_solo_port);
 
+        struct PositionTargets {
+	        double armDegrees;
+	        double cascadeDegrees;
+        };
+        static constexpr PositionTargets startposition = {0.0, 125.0};
+        static constexpr double armMinDeg = 0.0;//0 for start i think will check
+        static constexpr double armMaxDeg = 180.0;//idk what this is acutally going to be
+        static constexpr double casMinDeg = 0.0;
+        static constexpr double casMaxDeg = 1500.0;//will need to tune this
+        static constexpr std::int32_t armMinCentiDeg = 0;
+        static constexpr std::int32_t armMaxCentiDeg = 0; //need to figure out what size i need to make this
+        static constexpr double armmindeg = 0.0;
+        std::int32_t degreesToCentidegrees(double degrees);
+        std::atomic<std::int32_t> armTargetCentiDegrees{0};
+        std::atomic<std::int32_t> cascadeTargetCentidegrees{0};
+        std::atomic<std::int32_t> armManual{0};
+        std::atomic<bool> armManualCoast{false};
+        std::atomic<std::int32_t> cascadeManual{0};
+        void auto_arm_pos(PositionTargets startposition);
+        void setarmtarget(double degrees, double armMinDeg, double armMaxDeg,  std::atomic<std::int32_t> armTargetCentiDegrees);
+        void setcascadetarget(double degrees);
         void driverFunctions();
         void setControlLiftVoltage(double voltage_lift);
         void setControlArmVoltage(double voltage_arm);
@@ -91,6 +112,8 @@ namespace subsystems {
         void setMacroLiftRotation(double liftrotation);
         void setMacroArmRotation(double voltage);
         void arm_position(ARM_MODE pos);
+
+        void mechPosCon();
         double voltage_lift;
         double voltage_arm;
         int arm_rotation = 0;

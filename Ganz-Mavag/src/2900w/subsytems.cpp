@@ -1,12 +1,10 @@
 #include "2900winclide/subsystems.hpp"
-#include "main.h"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
 #include "pros/misc.h"
 #include "pros/motors.hpp"
 #include "utils.cpp"
 #include <cmath>
-#include <iostream>
 #include <atomic>
 namespace subsystems{
         lift::lift(int cascade_lift_1_port,int cascade_lift_2_port,int arm_1_port,int arm_2_port,char claw_solo_port)
@@ -24,21 +22,23 @@ namespace subsystems{
           armMotors.tare_position();
           CascadeMotors.set_brake_mode(pros::MotorBrake::hold);
           armMotors.set_brake_mode(pros::MotorBrake::hold);
-          std::atomic<std::int32_t> armTargetCentiDegrees{0};
-          std::atomic<std::int32_t> cascadeTargetCentidegrees{0};
-          std::atomic<std::int32_t> armManualPower{0};
-          std::atomic<bool> armManualCoast{false};
-          std::atomic<std::int32_t> cascadeManualPower{0};
-          struct PositionTargets {
-	              double armDegrees;
-	              double cascadeDegrees;
-          };
-          constexpr PositionTargets startposition = {0.0, 125.0};
+          
+        }
+        void lift::auto_arm_pos(PositionTargets startposition){
           armTargetCentiDegrees.store(DegreesToCentidegrees(startposition.armDegrees));
           cascadeTargetCentidegrees.store(DegreesToCentidegrees(startposition.cascadeDegrees));
-          armManul.store(0);
+          armManual.store(0);
 	        armManualCoast.store(false);
-	        cascadeManualPower.store(0);
+	        cascadeManual.store(0);
+          
+        }
+        void lift::setarmtarget(double degrees, double armMinDeg, double armMaxDeg, std::atomic<std::int32_t> armTargetCentiDegrees){
+          degrees = std::fmax(armMinDeg, std::fmin(armMaxDeg, degrees));
+          armTargetCentiDegrees.store(DegreesToCentidegrees(degrees));
+        }
+        void lift::setcascadetarget(double degrees) {
+	        degrees = std::fmax(casMinDeg, std::fmin(casMaxDeg, degrees));
+	        cascadeTargetCentidegrees.store(degreesToCentidegrees(degrees));
         }
         
         void lift::setControlLiftVoltage(double voltage){
