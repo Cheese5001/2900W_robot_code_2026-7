@@ -14,23 +14,22 @@ namespace subsystems{
           arm_motor_2(pros::Motor(arm_2_port, pros::v5::MotorGearset::green, pros::v5::MotorEncoderUnits::degrees)),
           CLAW((pros::adi::Pneumatics(claw_solo_port, false, false)))
         {
-          CascadeMotors.append(cascade_motor_2);
+          cascadeMotors.append(cascade_motor_2);
           armMotors.append(arm_motor_2);
-          CascadeMotors.set_encoder_units(pros::MotorUnits::degrees);
+          cascadeMotors.set_encoder_units(pros::MotorUnits::degrees);
           armMotors.set_encoder_units(pros::MotorUnits::degrees);
-          CascadeMotors.tare_position();
+          cascadeMotors.tare_position();
           armMotors.tare_position();
-          CascadeMotors.set_brake_mode(pros::MotorBrake::hold);
+          cascadeMotors.set_brake_mode(pros::MotorBrake::hold);
           armMotors.set_brake_mode(pros::MotorBrake::hold);
           
         }
-        void lift::auto_arm_pos(PositionTargets startposition){
+        void lift::casarmInit(PositionTargets startposition){
           armTargetCentiDegrees.store(DegreesToCentidegrees(startposition.armDegrees));
           cascadeTargetCentidegrees.store(DegreesToCentidegrees(startposition.cascadeDegrees));
           armManual.store(0);
 	        armManualCoast.store(false);
 	        cascadeManual.store(0);
-          
         }
         void lift::setarmtarget(double degrees, double armMinDeg, double armMaxDeg, std::atomic<std::int32_t> armTargetCentiDegrees){
           degrees = std::fmax(armMinDeg, std::fmin(armMaxDeg, degrees));
@@ -40,29 +39,20 @@ namespace subsystems{
 	        degrees = std::fmax(casMinDeg, std::fmin(casMaxDeg, degrees));
 	        cascadeTargetCentidegrees.store(degreesToCentidegrees(degrees));
         }
-        
-        void lift::setControlLiftVoltage(double voltage){
-          cascade_motor_1.move_voltage(floor(voltage));
-          cascade_motor_2.move_voltage(floor(voltage));
-        }
-        
-        void lift::setControlArmVoltage(double voltage){
-          arm_motor_1.move_voltage(floor(voltage));
-          arm_motor_2.move_voltage(floor(voltage));
-        }
-
-        void lift::setMacroArmRotation(double voltage){
-          arm_motor_1.move_voltage(floor(voltage));
-          arm_motor_2.move_voltage(floor(voltage));
+        void lift::mechPosCon(){
+          while (true){
+            if(pros::competition::is_disabled()){
+              armMotors.move(0);
+              cascadeMotors.move(0);
+              armPidInit = false;
+              cascadePidInit = false;
+              pros::delay(10);
+              continue;
+            }
+            
+          }       
         }
 
-        void lift::setClawState(bool state){
-          CLAW.set_value(state);
-        }
-
-        void lift::arm_position(ARM_MODE pos){
-          currentMode = pos;
-        }
         void lift::driverFunctions(){
           if (Controller.get_digital(DIGITAL_L1)){
               voltage_arm = 12000;
@@ -83,7 +73,7 @@ namespace subsystems{
           }
           else{
             voltage_lift = 0;
-            CascadeMotors.brake();
+            cascadeMotors.brake();
           }
 
           if(Controller.get_digital(DIGITAL_A)){

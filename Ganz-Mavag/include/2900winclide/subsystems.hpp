@@ -70,7 +70,7 @@ namespace subsystems {
         pros::Motor arm_motor_1;
         pros::Motor arm_motor_2;
         pros::adi::Pneumatics CLAW;
-        pros::MotorGroup CascadeMotors = pros::MotorGroup(cascade_motor_1);
+        pros::MotorGroup cascadeMotors = pros::MotorGroup(cascade_motor_1);
         pros::MotorGroup armMotors = pros::MotorGroup(arm_motor_1);
         int lift_press_count = 0;   
         ARM_MODE currentMode = IDLE;
@@ -96,13 +96,22 @@ namespace subsystems {
         static constexpr std::int32_t armMinCentiDeg = 0;
         static constexpr std::int32_t armMaxCentiDeg = 0; //need to figure out what size i need to make this
         static constexpr double armmindeg = 0.0;
+        static constexpr double armHoldUpPower = 0.0; // increse if it sagas below and decrease if it goes to high
+        static constexpr double armMaxMovePower = 0.0; // i think this is for getting to its location
+        static constexpr double cascadeUpHoldPower = 0.0; // tune this
+        std::int32_t armPreviousTarget = 0;
+	    std::int32_t armPreviousPosition = 0;
+        std::int32_t cascadePreviousTarget = 0;
         std::int32_t degreesToCentidegrees(double degrees);
         std::atomic<std::int32_t> armTargetCentiDegrees{0};
         std::atomic<std::int32_t> cascadeTargetCentidegrees{0};
         std::atomic<std::int32_t> armManual{0};
         std::atomic<bool> armManualCoast{false};
         std::atomic<std::int32_t> cascadeManual{0};
-        void auto_arm_pos(PositionTargets startposition);
+        bool armPidInit = false;
+        bool cascadePidInit = false;
+
+        void casarmInit(PositionTargets startposition);
         void setarmtarget(double degrees, double armMinDeg, double armMaxDeg,  std::atomic<std::int32_t> armTargetCentiDegrees);
         void setcascadetarget(double degrees);
         void driverFunctions();
@@ -112,11 +121,10 @@ namespace subsystems {
         void setMacroLiftRotation(double liftrotation);
         void setMacroArmRotation(double voltage);
         void arm_position(ARM_MODE pos);
-
         void mechPosCon();
         double voltage_lift;
         double voltage_arm;
         int arm_rotation = 0;
-        const double cascadeDegrees = CascadeMotors.get_position();
+        const double cascadeDegrees = cascadeMotors.get_position();
     };
 };
