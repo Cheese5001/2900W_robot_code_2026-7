@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "arm work2",
+    "project_name": "auton",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -592,9 +592,9 @@
       }
     },
     "upload_options": {
-      "icon": "pizza",
+      "icon": "planet",
       "description": "for 2900W. Version 1.0.1.1",
-      "slot": 5
+      "slot": 7
     },
     "use_early_access": false
   }

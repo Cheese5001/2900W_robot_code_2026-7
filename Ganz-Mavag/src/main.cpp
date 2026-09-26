@@ -28,7 +28,7 @@ pros::Motor cascade_1(0,pros::MotorGearset::blue);
 pros::Motor cascade_2(0,pros::MotorGearset::blue);
 pros::MotorGroup cascade(cascade_1);
 pros::adi::Pneumatics idk('A', true );
-pros::Motor claw(9,pros::MotorGearset::green);
+pros::Motor claw(10,pros::MotorGearset::green);
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -121,15 +121,19 @@ void opcontrol() {
 		else{
 			arm.brake();
 		}
-		if (master.get_digital(DIGITAL_A)){
+		if (master.get_digital(DIGITAL_L1)){
 			claw.move_velocity(100);
 		}	
-		else if (master.get_digital(DIGITAL_B)){
+		else if (master.get_digital(DIGITAL_L2)){
 			claw.move_velocity(-50);
+		}
+		else if (master.get_digital(DIGITAL_Y)){
+			claw.move_absolute(20, 100);
 		}
 		else{
 			claw.brake();
 		}
+		
 		pros::delay(20);                               // Run for 20 ms then update
 	}
 }
